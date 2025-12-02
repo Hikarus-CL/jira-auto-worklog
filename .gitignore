@@ -1,0 +1,18 @@
+# Archivos de entorno
+.env
+.env.local
+*.env
+.env.*
+
+# Entorno virtual
+venv/
+
+# Archivos de sistema macOS
+.DS_Store
+
+# Configuraciones de VS Code
+.vscode/
+
+# Archivos Python generados
+__pycache__/
+*.pyc
