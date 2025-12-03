@@ -67,6 +67,15 @@ JIRA_ISSUE=PROY-123
 JIRA_COOKIE=JSESSIONID=<jsessionid>; tenant.session.token=<jwt_token>;
 ```
 
+```
+# Horas de trabajo configurables
+HORAS_DIARIAS_NORMAL=8.5
+HORAS_DIARIAS_REDUCIDA=6
+
+# Comentario del worklog
+COMENTARIO="Actividad regular"
+```
+
 ---
 
 # 📌 Cómo obtener la Cookie SSO (IMPORTANTE)

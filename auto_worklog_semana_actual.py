@@ -38,9 +38,9 @@ headers = {
     "Content-Type": "application/json"
 }
 
-HORAS_DIARIAS_NORMAL = 8.5
-HORAS_DIARIAS_VIERNES = 6
-COMENTARIO = "Transbank - actividad regular"
+HORAS_DIARIAS_NORMAL = float(os.getenv("HORAS_DIARIAS_NORMAL", 8.5))
+HORAS_DIARIAS_REDUCIDA = float(os.getenv("HORAS_DIARIAS_REDUCIDA", 6))
+COMENTARIO = os.getenv("COMENTARIO", "Actividad regular")
 
 
 def obtener_account_id():
@@ -110,7 +110,7 @@ def registrar_horas():
             print(f"⚠️ Ya existía registro para {fecha_str}")
             continue
 
-        horas = HORAS_DIARIAS_VIERNES if fecha.weekday() == 4 else HORAS_DIARIAS_NORMAL
+        horas = HORAS_DIARIAS_REDUCIDA if fecha.weekday() == 4 else HORAS_DIARIAS_NORMAL
         minutos = int(horas * 60)
 
         # Payload en formato real del UI de Jira
