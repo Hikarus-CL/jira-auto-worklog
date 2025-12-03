@@ -1,6 +1,6 @@
 # Jira Auto Worklog ⏱️  
 ![Python](https://img.shields.io/badge/python-3.9+-blue)
-![Status](https://img.shields.io/badge/version-1.0-success)
+![Status](https://img.shields.io/badge/version-1.1-success)
 ![Auth](https://img.shields.io/badge/auth-SSO_Cookie-yellow)
 ![Platform](https://img.shields.io/badge/platform-Jira_Cloud-blue)
 
