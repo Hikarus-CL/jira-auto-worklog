@@ -13,8 +13,13 @@ import subprocess
 load_dotenv()
 
 JIRA_URL = os.getenv("JIRA_URL")
+# JIRA_ISSUE puede seguir existiendo como fallback, pero el script semanal decidirá el issue por día/mes
 JIRA_ISSUE = os.getenv("JIRA_ISSUE")
 JIRA_COOKIE = os.getenv("JIRA_COOKIE")
+
+# Opcional: mapping por mes (YYYY-MM -> ISSUEKEY) para semanas que cruzan mes/año
+# Ejemplo: {"2025-12":"INC-123","2026-01":"INC-456"}
+JIRA_ISSUE_MAP_JSON = os.getenv("JIRA_ISSUE_MAP_JSON", "")
 
 # Headers basados en cookies (SSO corporativo)
 headers = {
@@ -28,7 +33,20 @@ headers = {
 # ============================================================
 def probar_cookie():
     """Verifica si la cookie funciona y retorna datos del issue."""
-    url = f"{JIRA_URL}/rest/api/3/issue/{JIRA_ISSUE}"
+    issue_para_probar = JIRA_ISSUE or ""
+    if not issue_para_probar and JIRA_ISSUE_MAP_JSON:
+        try:
+            issue_map = json.loads(JIRA_ISSUE_MAP_JSON)
+            # tomar cualquier issue del mapping solo para validar la cookie
+            issue_para_probar = next(iter(issue_map.values()), "")
+        except Exception:
+            issue_para_probar = ""
+
+    if not issue_para_probar:
+        print("\n⛔ No hay JIRA_ISSUE definido (ni JIRA_ISSUE_MAP_JSON válido) para probar la cookie.")
+        return False
+
+    url = f"{JIRA_URL}/rest/api/3/issue/{issue_para_probar}"
     print(f"🔎 Probando acceso al issue: {url}")
 
     r = requests.get(url, headers=headers)
@@ -58,7 +76,7 @@ def probar_cookie():
         return False
 
     else:
-        print(f"\n⚠️ Error inesperado {r.status_code}: {r.text}")
+        print(f"\n⚠️  Error inesperado {r.status_code}: {r.text}")
         return False
 
 
